@@ -1,5 +1,6 @@
 from configparser import ConfigParser
-from paramiko import SSHClient
+#from paramiko import SSHClient
+import paramiko
 from scp import SCPClient
 import tarfile
 import os
@@ -14,8 +15,9 @@ import psutil
 cfg = ConfigParser()
 cfg.read('config.ini')
 
-ssh = SSHClient()
+ssh = paramiko.SSHClient()
 ssh.load_system_host_keys()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh.connect(cfg.get('target_hosts','backup_host'))
 
 logging.basicConfig(
